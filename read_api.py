@@ -65,7 +65,7 @@ class client:
         cls.user_hash = hashlib.sha1(user.encode('utf-8')).hexdigest()
         if cls.user_hash in {i[0] for i in curr.execute("SELECT USERID FROM ACCOUNTS").fetchall()}:
             raise cls.NewAccountError('Username in use')
-        os.mkdir(f".\\users\\{cls.user_hash}")
+        os.makedirs(f".\\users\\{cls.user_hash}")
         manifest = sqlite3.connect(f".\\users\\{cls.user_hash}\\manifest.db").cursor()
         manifest.execute("""CREATE TABLE MAIL(
             ID          TEXT PRIMARY KEY    NOT NULL,
@@ -77,7 +77,7 @@ class client:
         password = hashlib.sha512(password.encode('utf-8')).hexdigest()
         curr.execute("INSERT INTO ACCOUNTS VALUES (:id, :user, :pass", {"id": cls.user_hash, "user": user, "pass": password})
         curr.connection.commit()
-        cls.database = sqlite3.connect(f'.\\users\\{cls.user_hash}\manifest.db')
+        cls.database = sqlite3.connect(f'.\\users\\{cls.user_hash}\\manifest.db')
         cls._authenticate(cls.user_hash, password)
         
 
