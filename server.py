@@ -50,8 +50,3 @@ class handler:
     def _get_users() -> list[str]:
         curr = sqlite3.connect('.\\accounts.db').cursor()
         return {i[0] for i in curr.execute("SELECT USER FROM ACCOUNTS")}
-
-if __name__ == '__main__':
-    server = aiosmtpd.controller.Controller(handler(), '127.0.0.1', 3008)
-    server.start()
-    smtplib.SMTP(server.hostname, server.port).sendmail('Istditajrz@127.0.0.1', ['Istditajrz@127.0.0.1'], "Hello!")
